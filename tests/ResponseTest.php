@@ -14,7 +14,6 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($test->getContent(),'<h1>path</h1>');
     }
-
 }
 
 
