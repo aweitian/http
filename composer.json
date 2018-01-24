@@ -1,27 +1,30 @@
 {
-    "name": "aweitian/http",
-    "type": "library",
-    "description": "Tian HttpFoundation Component",
-    "keywords": [],
-    "homepage": "https://github.com/aweitian/http",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "awei.tian",
-            "email": "awei.tian@qq.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.4"
+  "name": "aweitian/http",
+  "type": "library",
+  "description": "Tian HttpFoundation Component",
+  "keywords": [],
+  "homepage": "https://github.com/aweitian/http",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "awei.tian",
+      "email": "awei.tian@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Aw\\Http\\": "src\\"
     },
-    "require-dev": {
-
-    },
-    "autoload": {
-        "psr-4": { "Tian\\Http\\": "src\\" },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
-    },
-    "minimum-stability": "dev"
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
