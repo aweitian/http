@@ -13,6 +13,11 @@ namespace Aw\Http;
 
 class Request
 {
+    /**
+     * 在匹配,通过管道时设置运算结果提供给后面使用
+     * @var array
+     */
+    public $carry = array();
     public $defaultUa = 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1';
     protected $scheme;
     protected $host;
