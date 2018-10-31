@@ -229,6 +229,22 @@ class Response
     }
 
     /**
+     * Sends status code.
+     *
+     * @param $code
+     * @return $this
+     */
+    public function sendStatusCode($code)
+    {
+        if (!array_key_exists($code, self::$statusTexts))
+            return $this;
+        $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+        $text = self::$statusTexts[$code];
+        header($protocol . ' ' . $code . ' ' . $text);
+        return $this;
+    }
+
+    /**
      * Sends content for the current web response.
      *
      * @return $this
@@ -247,6 +263,7 @@ class Response
      */
     public function send()
     {
+        $this->sendStatusCode($this->getStatusCode());
         $this->sendContent();
 
         if (function_exists('fastcgi_finish_request')) {
