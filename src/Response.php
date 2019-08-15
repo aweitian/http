@@ -315,7 +315,7 @@ class Response
     {
         $this->original = $content;
 
-        $this->content = (string)$content;
+        $this->content = $content;
 
         return $this;
     }
