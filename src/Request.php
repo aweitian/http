@@ -186,12 +186,7 @@ class Request
         if ($path) {
             $this->path = $path;
         } else {
-            $r = explode('?', $this->requestUri());
-            if (count($r) == 2) {
-                $this->path = $r[0];
-            } else {
-                $this->path = $this->requestUri();
-            }
+            $this->path = $_SERVER['PATH_INFO'];
         }
         if ($method) {
             $this->setMethod($method);
