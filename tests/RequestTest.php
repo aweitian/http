@@ -22,6 +22,15 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($test->getContent(),'aa=bb');
     }
 
+    public function testOriginal()
+    {
+        $test = new Aw\Http\Request('/path','get');
+        $this->assertEquals($test->getPath(),'/path');
+        $this->assertEquals($test->getOriginal(),'/path');
+        $test->setPath("/new");
+        $this->assertEquals($test->getOriginal(),'/path');
+        $this->assertEquals($test->getPath(),'/new');
+    }
 }
 
 

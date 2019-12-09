@@ -24,7 +24,7 @@ class Request
     protected $port;
     protected $isJsonAccept;
 
-
+    protected $original = '';
     protected $userAgent;
     protected $path;
     protected $query = array();
@@ -180,14 +180,24 @@ class Request
         return $this;
     }
 
+    /**
+     * 返回第一次的PATH
+     * @return string
+     */
+    public function getOriginal()
+    {
+        return $this->original;
+    }
 
     protected function initFromGlobal($path, $method)
     {
         if ($path) {
             $this->path = $path;
+            $this->original = $this->path;
         } else {
             if (isset($_SERVER['PATH_INFO'])) {
                 $this->path =  $_SERVER['PATH_INFO'];
+                $this->original = $this->path;
             } else {
                 $r = explode('?', $this->requestUri(), 2);
                 if (count($r) == 2) {
@@ -195,6 +205,7 @@ class Request
                 } else {
                     $this->path = $this->requestUri();
                 }
+                $this->original = $this->path;
             }
         }
         if ($method) {
