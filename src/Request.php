@@ -31,6 +31,8 @@ class Request
     protected $method;
     protected $content;
 
+    protected $headers = array();
+
     public function __construct($path = '', $method = '')
     {
         $this->initFromGlobal($path, $method);
@@ -42,6 +44,14 @@ class Request
     public function isJsonAccept()
     {
         return $this->isJsonAccept;
+    }
+
+
+    public function getHeader($key = null)
+    {
+        if (!$key) return $this->headers;
+        if (array_key_exists($key, $this->headers)) return $this->headers[$key];
+        return null;
     }
 
     /**
@@ -196,7 +206,7 @@ class Request
             $this->original = $this->path;
         } else {
             if (isset($_SERVER['PATH_INFO'])) {
-                $this->path =  $_SERVER['PATH_INFO'];
+                $this->path = $_SERVER['PATH_INFO'];
                 $this->original = $this->path;
             } else {
                 $r = explode('?', $this->requestUri(), 2);
@@ -222,6 +232,21 @@ class Request
         $this->content = file_get_contents('php://input');
         $this->isJsonAccept = $this->_isJsonAccept();
         $this->userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : $this->defaultUa;
+        $this->headers = $this->initHeader();
+    }
+
+    protected function initHeader()
+    {
+        if (!function_exists('getallheaders')) {
+            $headers = array();
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) == 'HTTP_') {
+                    $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                }
+            }
+            return $headers;
+        }
+        return getallheaders();
     }
 
     /**
@@ -272,8 +297,9 @@ class Request
         }
     }
 
-    protected function _isJsonAccept(){
-        if(!isset($_SERVER["HTTP_ACCEPT"]))return false;
+    protected function _isJsonAccept()
+    {
+        if (!isset($_SERVER["HTTP_ACCEPT"])) return false;
         return false !== strpos($_SERVER["HTTP_ACCEPT"], "application/json");
     }
 }
