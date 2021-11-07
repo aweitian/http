@@ -46,7 +46,44 @@ class Request
         return $this->isJsonAccept;
     }
 
+    /**
+     * @param null $key
+     * @param null $default
+     * @return null
+     */
+    public function json($key = null, $default = null)
+    {
+        $input = file_get_contents("php://input");
+        $src = json_decode($input, true);
+        return $this->_input($src, $key, $default);
+    }
 
+    public function get($key = null, $default = null)
+    {
+        return $this->_input($_GET, $key, $default);
+    }
+
+    public function post($key = null, $default = null)
+    {
+        return $this->_input($_POST, $key, $default);
+    }
+
+    public function raw()
+    {
+        return file_get_contents("php://input");
+    }
+
+    protected function _input($src, $key = null, $default = null)
+    {
+        if ($key == null) return $src;
+        if (array_key_exists($key, $src)) return $src[$key];
+        return $default;
+    }
+
+    /**
+     * @param null $key
+     * @return array|mixed|null
+     */
     public function getHeader($key = null)
     {
         if (!$key) return $this->headers;
